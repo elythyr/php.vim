@@ -10,7 +10,7 @@ Installation
 
 If you don't have a preferred installation method, [vim-plug] is quick and simple. With [vim-plug installed], add the following to your `vimrc` (if you are a NeoVim user, see the [FAQ page][neovim-faq] for help):
 
-```vimscript
+```vim
 Plug 'StanAngeloff/php.vim'
 ```
 
@@ -59,16 +59,16 @@ Configuration
 
 ### Overriding highlighting
 
-Syntax highlighting can be controlled at a fine-grained level allowing you to distinguish groups by overriding defaults. For example, all code in PHP comments is highlighted as `phpComment` by default, however there are groups you can tweak, e.g., how PHPDoc `@tags` appear. There are [several groups you can choose from](syntax-groups).
+Syntax highlighting can be controlled at a fine-grained level. For example, all text in PHP comments is highlighted as `phpComment` by default, however there are smaller syntax groups you can tweak, e.g., how PHPDoc `@tags` appear. There are [several syntax groups you can choose from](syntax-groups).
 
 Example: Overriding PHP `@tags` and `$parameters` in comments to appear as a different highlighting group, giving them distinct colouring:
 
-```vimscript
-" Put this snippet at the very end of your vimrc file.
+```vim
+" Put this function at the very end of your vimrc file.
 
 function! PhpSyntaxOverride()
-  " Put overrides in this function.
-  hi! link phpDocTags  phpDefine
+  " Put snippet overrides in this function.
+  hi! link phpDocTags phpDefine
   hi! link phpDocParam phpType
 endfunction
 
@@ -78,18 +78,26 @@ augroup phpSyntaxOverride
 augroup END
 ```
 
-You may optionally assign specific colouring to groups in the `PhpSyntaxOverride` function:
+#### Snippets
 
-```vimscript
-" […]
+You may add the code snippets below to your `PhpSyntaxOverride` function (see above for instructions on how to create this function).
 
-function! PhpSyntaxOverride()
-  " Highlight the backslash in use, extends and implements in grey.
-  hi phpUseNamespaceSeparator guifg=#808080 guibg=NONE gui=NONE
-  hi phpClassNamespaceSeparator guifg=#808080 guibg=NONE gui=NONE
-endfunction
+##### Colourising namespace separator in `use`, `extends` and `implements`
 
-" […]
+If you wish to highlight the namespace separator `\` differently ([original request](https://github.com/StanAngeloff/php.vim/issues/63)):
+
+```vim
+hi phpUseNamespaceSeparator guifg=#808080 guibg=NONE gui=NONE
+hi phpClassNamespaceSeparator guifg=#808080 guibg=NONE gui=NONE
+```
+
+##### Colourising parentheses
+
+If you wish to highlight `(` and `)` differently ([original request](https://github.com/StanAngeloff/php.vim/issues/31#issuecomment-52879108)):
+
+```vim
+syn match phpParentOnly "[()]" contained containedin=phpParent
+hi phpParentOnly guifg=#f08080 guibg=NONE gui=NONE
 ```
 
 Developing
