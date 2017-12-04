@@ -619,8 +619,9 @@ if !exists("php_ignore_phpdoc") || !php_ignore_phpdoc
 
   syn region phpDocTags  start="{@\(example\|id\|internal\|inheritdoc\|link\|source\|toc\|tutorial\)" end="}" containedin=phpDocComment
   syn match phpDocTags "@\%(abstract\|access\|api\|author\|brief\|bug\|category\|class\|copyright\|created\|date\|deprecated\|details\|example\|exception\|file\|filesource\|final\|global\|id\|ignore\|inheritdoc\|internal\|license\|link\|magic\|method\|name\|package\|param\|property\|return\|see\|since\|source\|static\|staticvar\|struct\|subpackage\|throws\|toc\|todo\|tutorial\|type\|uses\|var\|version\|warning\)" containedin=phpDocComment nextgroup=phpDocParam,phpDocIdentifier skipwhite contained
-  syn match phpDocParam "\s\+\zs\(|\|\\\|\h\w*\)*\h\w*" nextgroup=phpDocIdentifier skipwhite contained
+  syn match phpDocParam "\s\+\zs\(|\|\\\|\h\w*\)*\h\w*" nextgroup=phpDocIdentifier skipwhite contained contains=phpDocNamespaceSeparator
   syn match phpDocIdentifier "\s\+\zs$\h\w*" contained
+  syn match phpDocNamespaceSeparator "\\" contained display
 
   syn case match
 endif
@@ -693,25 +694,28 @@ syn keyword phpKeyword class contained
       \ nextgroup=phpClass skipwhite skipempty
 syn match phpClass /\h\w*/ contained
 
+syn match phpClassNamespaceSeparator "\\" contained display
+
 " Class extends
 syn keyword phpKeyword extends contained
       \ nextgroup=phpClassExtends skipwhite skipempty
-syn match phpClassExtends /\(\\\|\h\w*\)*\h\w*/ contained
+syn match phpClassExtends /\(\\\|\h\w*\)*\h\w*/ contained contains=phpClassNamespaceSeparator
 
 " Class implements
 syntax keyword phpKeyword implements contained
       \ nextgroup=phpClassImplements skipwhite skipempty
-syntax match phpClassImplements contained
+syntax match phpClassImplements contained contains=phpClassNamespaceSeparator
       \ nextgroup=phpClassDelimiter skipwhite skipempty /\(\\\|\h\w*\)*\h\w*/
 syntax match phpClassDelimiter contained
       \ nextgroup=phpClassImplements skipwhite skipempty /,/
 
 " use statement
+syn match phpUseNamespaceSeparator "\\" contained display
 syn keyword phpInclude use contained
       \ nextgroup=phpUseFunction,phpUseClass skipwhite skipempty
 syn match phpUseFunction /function\_s\+\(\\\|\h\w*\)*\h\w*/ contained contains=phpUseKeyword
       \ nextgroup=phpUseAlias skipwhite skipempty
-syn match phpUseClass /\(function\_s\+\)\@!\(\\\|\h\w*\)*\h\w*/ contained
+syn match phpUseClass /\(function\_s\+\)\@!\(\\\|\h\w*\)*\h\w*/ contained contains=phpUseNamespaceSeparator
       \ nextgroup=phpUseAlias skipwhite skipempty
 syn match phpUseAlias /as\_s\+\h\w*/ contained contains=phpUseKeyword
 syn match phpUseKeyword /\(function\|as\)\_s\+/ contained contains=phpKeyword
@@ -872,6 +876,10 @@ if !exists("did_php_syn_inits")
   hi def link phpClassExtends    phpClass
   hi def link phpClassImplements phpClass
   hi def link phpClassDelimiter  phpRegion
+
+  hi def link phpDocNamespaceSeparator   phpComment
+  hi def link phpClassNamespaceSeparator phpClass
+  hi def link phpUseNamespaceSeparator   phpRegion
 
 endif
 
