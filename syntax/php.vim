@@ -555,8 +555,7 @@ syn match phpSplatOperator  "\.\.\." contained display
 " Identifier
 syn match  phpIdentifier         "$\h\w*"  contained contains=phpSuperglobals,phpVarSelector display
 syn match  phpIdentifierSimply   "${\h\w*}"  contains=phpOperator,phpParent  contained display
-syn region phpIdentifierComplex  matchgroup=phpParent start="{\$"rs=e-1 end="}"  contains=phpIdentifier,phpMemberSelector,phpVarSelector,phpIdentifierArray contained extend
-syn region phpIdentifierArray    matchgroup=phpParent start="\[" end="]" contains=@phpClInside contained
+syn region phpIdentifierComplex  matchgroup=phpParent start="{\$"rs=e-1 end="}"  contains=phpIdentifier,phpIdentifierSimply,phpSpecialChar,phpMethodsVar,phpStringSingle,phpStringDouble,phpBacktick,phpStrEsc contained extend
 
 " Boolean
 syn keyword phpBoolean true false  contained
