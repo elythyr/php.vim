@@ -736,6 +736,16 @@ else
 endif
 
 " Fold
+if php_phpdoc_folding==1
+    set foldmethod=syntax
+    syn region phpFoldPhpDoc
+        \ start="/\*\*"
+        \ end="\*/"
+        \ transparent fold
+        \ keepend extend
+        \ contains=phpCommentTitle,phpDocTags,phpTodo,@Spell
+endif
+
 if php_folding==1
   " match one line constructs here and skip them at folding
   syn keyword phpSCKeyword  abstract final private protected public static  contained
